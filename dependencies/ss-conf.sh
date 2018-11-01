@@ -56,6 +56,9 @@ esac
 EOF
 sudo chmod +x $bin_loc
 
+echo "install iptables-persistent"
+echo `sudo apt-get install iptables-persistent -y`
+
 # configure nat rules
 echo "iptables config"
 echo "create chain: shadowsocks"
@@ -74,14 +77,10 @@ iptables -t nat -A SHADOWSOCKS -d 224.0.0.0/4 -j RETURN
 iptables -t nat -A SHADOWSOCKS -d 240.0.0.0/4 -j RETURN
 iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports $local_port
 
-echo "inject shadowsocks before prerouting and output"
-iptables -t nat -I PREROUTING -p tcp -j SHADOWSOCKS
+echo "inject shadowsocks before output"
 iptables -t nat -I OUTPUT -p tcp -j SHADOWSOCKS
 
 echo "iptables config completed"
-
-echo "install iptables-persistent"
-echo `sudo apt-get install iptables-persistent`
 
 echo "iptables rules save"
 echo `sudo service iptables-persistent save`
