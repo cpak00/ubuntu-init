@@ -43,46 +43,17 @@ cat>$bin_loc<<EOF
 #! /bin/bash
 case \$1 in
     start)
-        ss-redir -c $filepath -f /etc/shadowsocks.pid
+        sudo ss-local -c $filepath -f /etc/shadowsocks.pid
         ;;
     stop)
-        kill -9 `cat /etc/shadowsocks.pid`
+        killall ss-local
         ;;
     restart)
-        kill -9 /etc/shadowsocks.pid
-        ss-redir -c $filepath -f /etc/shadowsocks.pid
+        killall ss-local
+        sudo ss-local -c $filepath -f /etc/shadowsocks.pid
         ;;
 esac
 EOF
 sudo chmod +x $bin_loc
-
-echo "install iptables-persistent"
-echo `sudo apt-get install iptables-persistent -y`
-
-# configure nat rules
-echo "iptables config"
-echo "create chain: shadowsocks"
-read -p "please ensure iptables.nat.SHADOWSOCKS has been deleted"
-iptables -t nat -N SHADOWSOCKS
-
-iptables -t nat -A SHADOWSOCKS -p tcp --dport $port -j RETURN
-
-iptables -t nat -A SHADOWSOCKS -d 0.0.0.0/8 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 10.0.0.0/8 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 127.0.0.0/8 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 169.254.0.0/16 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 172.16.0.0/12 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 192.168.0.0/16 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 224.0.0.0/4 -j RETURN
-iptables -t nat -A SHADOWSOCKS -d 240.0.0.0/4 -j RETURN
-iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports $local_port
-
-echo "inject shadowsocks before output"
-iptables -t nat -I OUTPUT -p tcp -j SHADOWSOCKS
-
-echo "iptables config completed"
-
-echo "iptables rules save"
-echo `sudo service iptables-persistent save`
 
 echo "finished"

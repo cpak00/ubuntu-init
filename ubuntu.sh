@@ -33,6 +33,8 @@ sudo bash $c_dir/dependencies/ss-conf.sh
 # neccesary tool
 echo `sudo apt-get install curl -y`
 echo `sudo apt-get install net-tools -y`
+echo `sudo apt-get install gnome-tweak-tool -y`
+echo `sudo apt-get install chrome-gnome-shell -y`
 
 # auto remove
 info "autoremove apt-get"
