@@ -56,4 +56,12 @@ esac
 EOF
 sudo chmod +x $bin_loc
 
+# config git
+cat>~/.gitconfig<<EOF
+[http]
+        proxy = socks5://$local_ip:$local_port
+[https]
+        proxy = socks5://$local_ip:$local_port
+EOF
+
 echo "finished"

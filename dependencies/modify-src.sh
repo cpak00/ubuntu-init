@@ -28,3 +28,15 @@ cat>.pip/pip.conf<<EOF
 [global]
 index-url=https://pypi.tuna.tsinghua.edu.cn/simple
 EOF
+
+# modify jdk path
+echo "modify jdk path"
+read -p "JAVA_HOME:" java_path
+cat>>~/.bashrc<<EOF
+
+# java path
+export JAVA_HOME=$java_path
+export JRE_HOME=$java_path/jre
+export CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib
+export PATH=\$JAVA_HOME/bin:\$PATH
+EOF
