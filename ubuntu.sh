@@ -30,6 +30,16 @@ info "finished"
 # config shadowsocks
 sudo bash $c_dir/dependencies/ss-conf.sh
 
+# install node and tools
+info "install node"
+echo `sudo apt-get install nodejs -y`
+echo `sudo apt-get install npm -y`
+echo `sudo npm install -g yarn react-native-cli`
+echo "set taobao source"
+yarn config set registry https://registry.npm.taobao.org --global
+yarn config set disturl https://npm.taobao.org/dist --global
+info "finished"
+
 # neccesary tool
 echo `sudo apt-get install curl -y`
 echo `sudo apt-get install net-tools -y`
