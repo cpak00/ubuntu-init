@@ -64,4 +64,25 @@ cat>~/.gitconfig<<EOF
         proxy = socks5://$local_ip:$local_port
 EOF
 
+# create systemctl
+cat>/etc/systemd/system/shadowsocks.service<<EOF
+[Unit]
+Description=shadowsocks
+After=network.target
+[Service]
+Type=forking
+PIDFile=/etc/shadowsocks.pid
+ExecStart=/bin/bash /bin/shadowsocks start
+ExecStop=/bin/bash /bin/shadowsocks stop
+ExecReload=/bin/bash bin/shadowsocks restart
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo `sudo chmod 754 /etc/systemd/system/shadowsocks.service`
+echo `sudo systemctl enable shadowsocks`
+echo `sudo service shadowsocks start`
+echo "service shadowsocks create and start"
+
 echo "finished"
