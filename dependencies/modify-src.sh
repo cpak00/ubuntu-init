@@ -32,7 +32,7 @@ EOF
 # modify jdk path
 echo "modify jdk path"
 read -p "JAVA_HOME:" java_path
-cat>>~/.bashrc<<EOF
+cat>>~/.profile<<EOF
 
 # java path
 export JAVA_HOME=$java_path
