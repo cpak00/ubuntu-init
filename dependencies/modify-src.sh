@@ -23,7 +23,7 @@ EOF
 # modify source of pip
 echo "modify source of pip"
 cd ~
-mkdir ".pip"
+mkdir -p ".pip"
 cat>.pip/pip.conf<<EOF
 [global]
 index-url=https://pypi.tuna.tsinghua.edu.cn/simple
